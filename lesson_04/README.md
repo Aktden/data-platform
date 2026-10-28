@@ -27,14 +27,14 @@ db.events.find({
 }).sort({ ts: -1 })
 ```
 
-Запрос возвращает 33 события. Подходящего индекса нет, поэтому сервер проверяет все 1200 документов через `COLLSCAN`, после чего сортирует найденные события по `ts` в памяти. Полезная доля чтения — `33 / 1200 × 100 = 2,75%`.
+Запрос возвращает 33 события. Подходящего индекса нет, поэтому сервер проверяет все 1200 документов через `COLLSCAN`, после чего сортирует найденные события по `ts` в памяти. Полезная доля чтения - `33 / 1200 × 100 = 2,75%`.
 
 [Разбор плана без индекса](https://dfrancour.dev/tools/mongodb-paste-the-plan#v1:zZTbbtNAEIbfZdVLg-KGpCF3oQeBCKTEFRKqEBq8k3TpHtzddZoQ-d2ZWTeHQgtSkRBXcWbmn8M3Y68FLisNyn5EH5SzYihykYmbGv3qXIO16MVwLSwYDBWUSH7t5uE5LtDGQJHKSlyeKR3RFxjFcAY6YCYq8AHlB07D-gOwUgwv10KTUCcL3lAu9N550TTZWgT0C8UFNr4KViYVSW5Ze4jU4BcTUsicavU6nab53Ny1-xrCFclOBof90dmrAfVGg9ljKK_wLa7uewws33DjKCe-cLrmzGGKHCu3M-yCRlb-LqoowYYLd0okncSfA26VtcrOmSZ3HiLMGWMxmV5QJ8H5eA6R8CUvjTt8ltNIBs1YGUVT5p0Xg95Rv9PJRFxVLA3KVBoT_KqORZtwl_l4Mh4Xx6P3FDBLi_kHG5DKYxnbA5o5fwteskp4_EZ2lDw9yS45loiWiSV1HlOunaUuSwxki74mdHaKsfaWYXa7e8ILZfCd0lpRJGNxETTtOJwuwagUvrGeuHLPmh8yxf36cwwPLOXPdU9DVAYipkq3zl8Hzt7tZQLkAmy5kVpEyapUO2__f1Ko2xYDLJAhsJtZhej8noHKTM7S019dSQsCIhTqOxaUiZt7mQ8ob00v6YkK19tjDRWN11JNj-RmIfVFgFifXP_P3T11U7yLRzeV94-evKmHXgSy_nKGDb8dpTMm8VkTMf4V2-_qjuAWz45LtqF5hzF7HFJ7O_eO5kB-vfuMC_rnaPl58wM)
 
 
 ## Задача 2 Индекс по ESR
 
-E — точное равенство по `service` и `level`; S — сортировка `ts: -1`; R — диапазон `duration_ms > 500`.
+E - точное равенство по `service` и `level`; S - сортировка `ts: -1`; R - диапазон `duration_ms > 500`.
 
 ```js
 db.events.createIndex({ service: 1, level: 1, ts: -1, duration_ms: 1 })
@@ -70,14 +70,14 @@ db.events.find({ level: "error" }).sort({ duration_ms: -1 }).limit(10)
 db.events.createIndex({ level: 1, duration_ms: -1 })
 ```
 
-E — `level`, S — `duration_ms: -1`, диапазона нет. Без индекса прочитано 1200 документов, с индексом — 10 ключей и 10 документов, возвращено 10. Хотя ошибок в коллекции 180, сервер читает индекс от самых долгих событий и останавливается после первых десяти благодаря `LIMIT`.
+E - `level`, S - `duration_ms: -1`, диапазона нет. Без индекса прочитано 1200 документов, с индексом - 10 ключей и 10 документов, возвращено 10. Хотя ошибок в коллекции 180, сервер читает индекс от самых долгих событий и останавливается после первых десяти благодаря `LIMIT`.
 
 [Разбор плана второго запроса с индексом](https://dfrancour.dev/tools/mongodb-paste-the-plan#v1:7VVNTxsxEP0ryOIYqiyX0txCPkTUBigJVasQRcN6Egxee7G9EITy3zvjTTbb0FL149BDT2uP3_g9v5m1nwUucw3KfELnlTWiJRLREPcFuqdzDcagE61nYSBDn0OKtK7twr_BBzTBE1IZicu-0gHdCINozUF7bIgcnEf5kbfhfE14zYN9vKct0DnrxGq1JjoBf0PRw_a7o-PmUZd2JUmmA-kNvkfKF_1ucthpvuWVDJYDpkR55kZWF4FE-wtkrKzYt6C2ka-hRikYP7Y98sBK3AU8KmOUWbAPrN0HWLABHwbDwZikaJWp0M5sYejcSZO9yIswKlFbeL837pyIH60OPo867VNavsOncwhko6kZljSELByw_FnmResgWa0tP6WKcDEYN0tmNdTsgCuo_LDQQUX_NuddB4jmxtdIJtMdlsmUWfylUVSeKl35UaxqLXAOLijQ2wgrqzrpkLZVDtNQ9tXcukdwctMzx-Sb_EaGmFyVnXElGnvVcCpeyBOTISzpII29oTL0Jchqxd3k8JboUHLFNuegLkhj_cn6EPm2kSJN0VMsuILUmwsMhTPcAFzNCjZWGQ6V1oqQFA82gCZW31tCpip4DHdtuhOu0y_Qf6-Pfs7b80FlEDDyP1p3R_sk1BsgH8Ckm0SDKDknonjyRaGWcebhAfn85ZpDH6yrBYjhrB-77Rd7-jelN_-6dBrJF96DdgiSr5ez69sS_fo_-C8d5_998Ef3QTRwpx88YqwX5-d-TN5jWRSedp3N8zgv75LUZhkYyYLmir-ievPm8bmrSd08aERhXeCFl1WKf1apY19er99RTrF3FF19BQ)
 
 
 ## Ответы для приёмки
 
-- `totalKeysExamined` считает просмотренные записи индекса, а `totalDocsExamined` — прочитанные документы коллекции. Это разные действия, поэтому числа могут различаться.
+- `totalKeysExamined` считает просмотренные записи индекса, а `totalDocsExamined` - прочитанные документы коллекции. Это разные действия, поэтому числа могут различаться.
 - `FETCH` получает полные документы по ссылкам из индекса. Запрос возвращает все поля, а четырёх полей составного индекса для этого недостаточно.
 - При вставке события сервер записывает документ и соответствующую запись в каждый применимый индекс. При изменении индексируемого поля индекс тоже обновляется.
 - Каждый индекс занимает место и увеличивает стоимость записи. Индексы выбирают под реальные фильтры, сортировки и частоту запросов.
