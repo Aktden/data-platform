@@ -1,0 +1,7 @@
+[
+  {"_id":"t-001","title":"Ошибка оплаты","status":"открыт","priority":3,"customer":{"name":"Анна","city":"Москва"},"tags":["mongodb","api"],"assignee":"Ирина"},
+  {"_id":"t-002","title":"Медленный отчёт","status":"в работе","priority":5,"customer":{"name":"Борис","city":"Санкт-Петербург"},"tags":["mongodb","analytics"],"assignee":"Олег"},
+  {"_id":"t-003","title":"Не приходит письмо","status":"открыт","priority":2,"customer":{"name":"Вера","city":"Москва"},"tags":["email"],"assignee":"Ирина"},
+  {"_id":"t-004","title":"Обновить профиль","status":"закрыт","priority":1,"customer":{"name":"Глеб","city":"Казань"},"tags":["ui","profile"],"resolved_at":"2026-10-20"},
+  {"_id":"t-005","title":"Ошибка оплаты","status":"в работе","priority":4,"customer":{"name":"Дина","city":"Москва"},"tags":["mongodb","payments"],"channel":"web"}
+]
