@@ -1,0 +1,68 @@
+{
+  "mongodb": "7.0.14",
+  "plans": [
+    {
+      "file": "plan-1.json",
+      "nReturned": 33,
+      "totalDocsExamined": 1200,
+      "totalKeysExamined": 0,
+      "stages": [
+        "COLLSCAN",
+        "SORT"
+      ]
+    },
+    {
+      "file": "plan-2.json",
+      "nReturned": 33,
+      "totalDocsExamined": 33,
+      "totalKeysExamined": 43,
+      "stages": [
+        "IXSCAN",
+        "FETCH"
+      ]
+    },
+    {
+      "file": "plan-3a.json",
+      "nReturned": 33,
+      "totalDocsExamined": 33,
+      "totalKeysExamined": 378,
+      "stages": [
+        "IXSCAN",
+        "SORT",
+        "FETCH"
+      ]
+    },
+    {
+      "file": "plan-3b.json",
+      "nReturned": 33,
+      "totalDocsExamined": 33,
+      "totalKeysExamined": 33,
+      "stages": [
+        "IXSCAN",
+        "SORT",
+        "FETCH"
+      ]
+    },
+    {
+      "file": "plan-4-bez.json",
+      "nReturned": 10,
+      "totalDocsExamined": 1200,
+      "totalKeysExamined": 0,
+      "stages": [
+        "COLLSCAN",
+        "SORT"
+      ]
+    },
+    {
+      "file": "plan-4.json",
+      "nReturned": 10,
+      "totalDocsExamined": 10,
+      "totalKeysExamined": 10,
+      "stages": [
+        "IXSCAN",
+        "FETCH",
+        "LIMIT"
+      ]
+    }
+  ]
+}
